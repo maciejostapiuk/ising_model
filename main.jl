@@ -7,7 +7,7 @@ matrix = rand([-1,1], 100,100)
 matrix
 counter = 0 
 an = Plots.Animation()
-for mcs in 1:10
+for mcs in 1:100000
 for iter in 1:100^2
     i = rand(DiscreteUniform(2,99))
     j = rand(DiscreteUniform(2,99))
@@ -21,16 +21,12 @@ for iter in 1:100^2
             matrix[i,j] *=-1
         end
     end
-    heatmap(matrix)
-    Plots.frame(an)
+    
 end
+heatmap(matrix)
+Plots.frame(an)
 end
 heatmap(matrix)
 #1\900 * coun
-gif(an,fps = 20)
+gif(an,fps = 1)
 ###
-counter/10
-x = 1
--x
-a = [1  2 3 ; 4 5 6]
-a[1,2]
