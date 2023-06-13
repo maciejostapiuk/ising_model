@@ -4,16 +4,16 @@ Plots.default(show = true)
 J = 1 
 T = 0
 k_b = 1 
-for ppp in 1:10
+#for ppp in 1:10
 matrix = rand([-1,1], 100,100)
 matrix
 mean_spin_value = zeros(5000)
 #an = Plots.Animation()
-for mcs in 1:5000
+for mcs in 1:1000
 for iter in 1:100^2
-    i = rand(DiscreteUniform(2,99))
-    j = rand(DiscreteUniform(2,99))
-    energy = 2*J*matrix[i,j]*(matrix[i-1,j] + matrix[i+1, j] + matrix[i,j-1] + matrix[i, j+1])
+    i = rand(DiscreteUniform(1,100))
+    j = rand(DiscreteUniform(1,100))
+    energy = 2*J*matrix[i,j]*(matrix[mod(i-1, 10)+1,j] + matrix[mod(i+1,10)+1, j] + matrix[i,mod(j-1,10)+1] + matrix[i, mod(j+1,10)+1])
     if energy <= 0
         matrix[i,j] *= -1
     else
@@ -24,10 +24,9 @@ for iter in 1:100^2
     end
     mean_spin_value[mcs] += mean(matrix)
 end
-#heatmap(matrix)
 #Plots.frame(an)
 end
-display(plot!(1:5000, mean_spin_value/10000,legend = false))
-ylims!(-1,1)
-end
-matrix = [[1 0 0 0 1; 1 0 0 0 1]]
+heatmap(matrix)
+#display(plot!(1:5000, mean_spin_value/10000,legend = false))
+#ylims!(-1,1)
+#end
