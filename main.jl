@@ -1,32 +1,34 @@
-using Plots,Random,Distributions
+using Plots;
 ###
 Plots.default(show = true)
-J = 1 
-T = 0
-k_b = 1 
-#for ppp in 1:10
-matrix = rand([-1,1], 100,100)
-matrix
-mean_spin_value = zeros(5000)
+#J = 1 
+#T = 1.85
+#N = 1000
+#p = 100
 #an = Plots.Animation()
-for mcs in 1:1000
-for iter in 1:100^2
-    i = rand(DiscreteUniform(1,100))
-    j = rand(DiscreteUniform(1,100))
-    energy = 2*J*matrix[i,j]*(matrix[mod(i-1, 10)+1,j] + matrix[mod(i+1,10)+1, j] + matrix[i,mod(j-1,10)+1] + matrix[i, mod(j+1,10)+1])
-    if energy <= 0
-        matrix[i,j] *= -1
-    else
-        x = rand(Uniform(0,1))
-        if x < exp(-energy/(T*k_b))
-            matrix[i,j] *=-1
-        end
+
+function ising_model(T, N, p)
+#plt = plot()
+for _ in 1:10
+    matrix = rand([-1,1], p,p)
+    mean_spin_value = zeros(N)
+    for mcs in 1:N
+        for iter in 1:p^2
+            i = rand(1:p)
+            j = rand(1:p)
+            energy = 2*matrix[i,j]*(matrix[mod1(i-1, p),j] + matrix[mod1(i+1,p), j] + matrix[i,mod1(j-1,p)] + matrix[i, mod1(j+1,p)])
+            if energy <= 0
+                matrix[i,j] *= -1
+            else
+                x = rand()
+                if x < exp(-energy/T)
+                    matrix[i,j] *=-1
+                end
+            end
+            mean_spin_value[mcs] = sum(matrix)/p^2
     end
-    mean_spin_value[mcs] += mean(matrix)
+    plot!(1:N, mean_spin_value,legend = false)
+    end
+    end
 end
-#Plots.frame(an)
-end
-heatmap(matrix)
-#display(plot!(1:5000, mean_spin_value/10000,legend = false))
-#ylims!(-1,1)
-#end
+ising_model(1.85, 3000, 10)
