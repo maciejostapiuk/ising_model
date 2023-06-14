@@ -302,7 +302,18 @@ xlabel!("time[MCS]");
 ylabel!("E");
 savefig("trajectories_T=4,8_L=80");
 ###
-
+rnge = 0.5:0.01:3.5
 ### plot Magnetisation of T
-
-
+plt = plot(); 
+results_10 = [1/100*sum(1/10*sum([ising_model(elem, 100,10) for _ in 1:10])) for elem in rnge]
+results_20 = [1/100*sum(1/10*sum([ising_model(elem, 100,20) for _ in 1:10])) for elem in rnge]
+results_40 = [1/100*sum(1/10*sum([ising_model(elem, 100,40) for _ in 1:10])) for elem in rnge]
+results_80 = [1/100*sum(1/10*sum([ising_model(elem, 100,80) for _ in 1:10])) for elem in rnge]
+plot!(rnge, results_10, label = "L = 10")
+plot!(rnge, results_20, label = "L = 20")
+plot!(rnge, results_40, label = "L = 40")
+plot!(rnge, results_80, label = "L = 80")
+xlabel!("T")
+ylabel!("m");
+title!("m(T)");
+savefig("megnetization of temperature");
