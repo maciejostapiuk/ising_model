@@ -115,6 +115,11 @@ function ising_model_current_configuration(T, N, p)
     end
 
 
+res = ising_model_current_configuration(1, 100, 10)
+heatmap(res);
+title!("100 MCS, T = 1, sieć 10 x 10");
+savefig(("100 MCS, T = 1, sieć 10 x 10"));
+
 ### current config for T = 1
 ### a) L = 10 
 res = ising_model_current_configuration(1, 100, 10)
@@ -150,6 +155,7 @@ savefig(("100 MCS, T =4, sieć 10 x 10"));
 res = ising_model_current_configuration(4, 100, 80)
 heatmap(res);
 title!("100 MCS, T = 4, sieć 80 x 80");
+savefig(("100 MCS, T =4, sieć 80 x 80"))
 
 ### Trajectories for T == 1.85, p = 10
 #
@@ -209,7 +215,7 @@ for i in 1:10
     res = ising_model(2.27,5000,10)
     plot!(1:5000, res, legend = false)
 end
-title!("trajectories for T=2,27 = 1");
+title!("trajectories for T=2,27");
 xlabel!("time[MCS]");
 ylabel!("E");
 savefig("trajectories_T=2,27_L=10");
@@ -336,3 +342,30 @@ savefig("0_mcs_10")
 heatmap(rand([-1,1], 80,80))
 title!("0 MCS")
 savefig("0_mcs_80")     
+
+plott = plot();
+L_10 = [1/100 * sum([abs(ising_model(T,20000,10)[end]) for _ in 1:100]) for T in 0.5:0.1:3.5]
+L_20 = [1/100 * sum([abs(ising_model(T,20000,20)[end]) for _ in 1:100]) for T in 0.5:0.1:3.5]
+L_40 = [1/5 * sum([abs(ising_model(T,10000,40)[end]) for _ in 1:5]) for T in 0.5:0.1:3.5] 
+L_80 = [1/5 * sum([abs(ising_model(T,10000,80)[end]) for _ in 1:5]) for T in 0.5:0.1:3.5] 
+scatter!(0.5:0.1:3.5, L_10, label = "L=10");   
+scatter!(0.5:0.1:3.5, L_20, label = "L=20"); 
+scatter!(0.5:0.1:3.5, L_40, label = "L=40");  
+scatter!(0.5:0.1:3.5, L_80, label = "L=80"); 
+xlabel!("T");
+ylabel!("<m>");
+title!("<m>(T)");
+savefig("Magnetyzacja_temperatura_po_zespole"); 
+display(plott) 
+
+2+2 
+
+for i in 1:10, j in 1:2
+println(i,j) 
+end
+[1,2,3][end]
+ising_model(1,10000,40)
+
+
+
+rand(10,10)
